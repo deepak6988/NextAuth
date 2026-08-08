@@ -20,20 +20,18 @@ export const sendEmail = async ({ email, type, userId }: SendEmailParams) => {
     }
 
     // implement mailer logic here
-    const transport = nodemailer.createTransport(
-      MailtrapTransport({
-        token: process.env.MAILTRAP_TOKEN ,
-      })
-    );
-
-    const sender = {
-      address: "hello@demomailtrap.co",
-      name: "Mailtrap Test",
-    };
+    var transport = nodemailer.createTransport({
+      host: "live.smtp.mailtrap.io",
+      port: 587,
+      auth: {
+        user: "api",
+        pass: process.env.MAILTRAP_TOKEN 
+      }
+    });
 
 
     const mailOptions = {
-      from: sender, // sender address
+      from: "hello@demomailtrap.co", // sender address
       to: email, // list of recipients
       subject: type === 'VERIFY' ? "Verify your email" : "Reset your password",
       html: "<b>Hello world?</b>", // HTML body
@@ -44,8 +42,6 @@ export const sendEmail = async ({ email, type, userId }: SendEmailParams) => {
   catch (error: any) {
     throw new Error(error.message);
   }
-}; 
+};
 
-function MailtrapTransport(arg0: { token: any; }): import("nodemailer/lib/smtp-pool") | import("nodemailer/lib/smtp-pool").Options {
-  throw new Error("Function not implemented.");
-}
+
