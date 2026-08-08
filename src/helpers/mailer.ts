@@ -13,10 +13,10 @@ export const sendEmail = async ({ email, type, userId }: SendEmailParams) => {
     const hashedToken = await bcrypt.hash(userId, 10);
 
     if (type === 'VERIFY') {
-      await User.findByIdAndUpdate(userId, { verifyToken: hashedToken, verifyTokenExpiry: Date.now() + 3600000 });
+      await User.findByIdAndUpdate(userId, {$set: { verifyToken: hashedToken, verifyTokenExpiry: Date.now() + 3600000 }});
     }
     else if (type === 'RESET') {
-      await User.findByIdAndUpdate(userId, { forgotPasswordToken: hashedToken, forgotPasswordTokenExpiry: Date.now() + 3600000 });
+      await User.findByIdAndUpdate(userId, {$set: { forgotPasswordToken: hashedToken, forgotPasswordTokenExpiry: Date.now() + 3600000 }});
     }
 
     // implement mailer logic here
@@ -34,7 +34,7 @@ export const sendEmail = async ({ email, type, userId }: SendEmailParams) => {
       from: "hello@demomailtrap.co", // sender address
       to: email, // list of recipients
       subject: type === 'VERIFY' ? "Verify your email" : "Reset your password",
-      html: "<b>Hello world?</b>", // HTML body
+      html: "<b>Hello world?</b>", // Add routing link for verification or password reset
     };
     const res = await transport.sendMail(mailOptions);
     return res;
