@@ -7,7 +7,8 @@ type SendEmailParams = {
 };
 
 export const sendEmail = async ({ email, type, userId }: SendEmailParams) => {
-  // implement mailer logic here
+  try {
+    // implement mailer logic here
   const transporter = nodemailer.createTransport({
   host: "smtp.example.com",
   port: 587,
@@ -18,12 +19,15 @@ export const sendEmail = async ({ email, type, userId }: SendEmailParams) => {
   }
   });
   const mailOptions = {
-    from: '"Example Team" <team@example.com>', // sender address
-    to: "alice@example.com, bob@example.com", // list of recipients
-    subject: "Hello", // subject line
-    text: "Hello world?", // plain text body
+    from: "deepakumar6988@gmail.com", // sender address
+    to: email, // list of recipients
+    subject: type === 'VERIFY' ? "Verify your email" : "Reset your password", 
     html: "<b>Hello world?</b>", // HTML body
   };
   const res = await transporter.sendMail(mailOptions);
   return res;
+  }
+  catch(error:any){
+    throw new Error(error.message);
+  }
 }; 
