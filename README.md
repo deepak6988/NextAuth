@@ -71,7 +71,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 You can deploy this app to platforms like Vercel or Netlify. After deploying, add the deployment URL to NEXTAUTH_URL in your environment variables.
 
-- Live Demo: https://your-deployment-url.com
+- Live Demo: https://next-auth-sepia-kappa.vercel.app
 
 ## License
 
